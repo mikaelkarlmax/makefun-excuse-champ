@@ -8,6 +8,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const ENTRY =
   "I deleted your file, but I replaced it with this apology — a significant upgrade: same folder, better content, zero typos.";
 
+// The gate allows 1 to 140 characters; refuse to write anything longer.
+if ([...ENTRY].length > 140 || ENTRY.trim().length === 0) {
+  throw new Error("entry must be 1-140 characters");
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", ENTRY, "utf8");
 console.log(ENTRY);
